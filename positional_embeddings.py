@@ -1,8 +1,7 @@
-'''Different methods for positional embeddings. These are not essential for understanding DDPMs, but are relevant for the ablation study.'''
+"""Different methods for positional embeddings. These are not essential for understanding DDPMs, but are relevant for the ablation study."""
 
 import torch
 from torch import nn
-from torch.nn import functional as F
 
 
 class SinusoidalEmbedding(nn.Module):
@@ -16,6 +15,7 @@ class SinusoidalEmbedding(nn.Module):
         half_size = self.size // 2
         emb = torch.log(torch.Tensor([10000.0])) / (half_size - 1)
         emb = torch.exp(-emb * torch.arange(half_size))
+        emb = emb.to(x.device)
         emb = x.unsqueeze(-1) * emb.unsqueeze(0)
         emb = torch.cat((torch.sin(emb), torch.cos(emb)), dim=-1)
         return emb
