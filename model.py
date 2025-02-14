@@ -55,7 +55,9 @@ class LowDimensionalDiffusionModel(nn.Module):
         # size of concatenated embeddings
         concat_size = len(self.time_emb.layer) + len(self.coord_emb.layer) * in_features
 
-        self.joint_mlp = ResidualMLP(concat_size, 2, hidden_size, hidden_layers)
+        self.joint_mlp = ResidualMLP(
+            concat_size, in_features, hidden_size, hidden_layers
+        )
 
     def forward(self, x: torch.Tensor, t: torch.Tensor):
         # positional encoding of x
